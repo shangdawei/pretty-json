@@ -45,13 +45,9 @@ Package content:
 	
 	CHANGELOG.txt             The change log.
 	
-	PrettyJson.jar            JAR file for running PrettyJson as a command
-	                          line utility. Includes the JSON.simple toolkit
-				  dependency.
-	
 	pretty_json-{version}.jar JAR file for embedding PrettyJson into Java
-	                          applications. Doesn't include the JSON.simple
-				  toolkit dependency.
+	                          applications. Doesn't include the JSON Smart
+				  dependency.
 	
 	javadoc/                  The Java Docs for this package.
 	
