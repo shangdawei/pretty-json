@@ -13,15 +13,15 @@ import net.minidev.json.parser.*;
  * Pretty JSON formatter. Supports two formatting styles:
  *
  * <ul>
- *     <li>{@link #STYLE_DEFAULT} Regular pretty JSON formatting.
- *     <li>{@link #STYLE_COMPACT} Reduces the number of vertical lines by 
+ *     <li>{@link Style#DEFAULT} Regular pretty JSON formatting.
+ *     <li>{@link Style#COMPACT} Reduces the number of vertical lines by 
  *         opening new JSON arrays and objects on the same line.
  * </ul>
  *
  * <p>Smart feature: prints the items in a JSON array on a single line if their
  * types are non-complex and their count is equal or less than three.
  *
- * <p>Example {@link #STYLE_DEFAULT} formatting:
+ * <p>Example {@link Style#DEFAULT} formatting:
  *
  * <pre>
  * {
@@ -40,7 +40,7 @@ import net.minidev.json.parser.*;
  * }
  * </pre>
  *
- * <p>Example {@link #STYLE_COMPACT} formatting:
+ * <p>Example {@link Style#COMPACT} formatting:
  *
  * <pre>
  * { "name"       : "Alice Wonderland",
@@ -62,15 +62,22 @@ public class PrettyJson {
 
 
 	/**
-	 * Default formatting style.
+	 * Enumeration of the formatting styles.
 	 */
-	public static final String STYLE_DEFAULT = "DEFAULT";
+	public static enum Style {
 	
 	
-	/**
-	 * Compact formatting style.
-	 */
-	public static final String STYLE_COMPACT = "COMPACT";
+		/**
+		 * Default formatting style.
+		 */
+		DEFAULT,
+
+
+		/**
+		 * Compact formatting style.
+		 */
+		COMPACT;
+	}
 	
 	
 	/**
@@ -100,64 +107,43 @@ public class PrettyJson {
 	/**
 	 * The chosen formatting style.
 	 */
-	private String style;
-	
-	
-	/**
-	 * Ensures the specified formatting style is not {@code null} and is 
-	 * either {@link #STYLE_DEFAULT} or {@link #STYLE_COMPACT}.
-	 *
-	 * @param style The formatting style.
-	 *
-	 * @throws NullPointerException     If the style is {@code null}.
-	 * @throws IllegalArgumentException If the style is unrecognised.
-	 */
-	protected static void ensureStyleIsValid(final String style) {
-	
-		if (style == null)
-			throw new NullPointerException("The style must be defined");
-		
-		if (style != STYLE_DEFAULT && style != STYLE_COMPACT)
-			throw new IllegalArgumentException("Unsupported style");
-	}
+	private Style style;
 	
 	
 	/**
 	 * Creates a new pretty JSON formatter with the specified style. The
-	 * currently supported styles are {@link #STYLE_DEFAULT} and 
-	 * {@link #STYLE_COMPACT}.
+	 * currently supported styles are {@link Style#DEFAULT} and 
+	 * {@link Style#COMPACT}.
 	 *
-	 * @param style The formatting style.
+	 * @param style The formatting style. Must not be {@code null}.
 	 */
-	public PrettyJson (final String style) {
+	public PrettyJson (final Style style) {
 	
-		ensureStyleIsValid(style);
+		if (style == null)
+			throw new IllegalArgumentException("The style must not be null");
 	
 		this.style = style;
 	}
 	
 	
 	/**
-	 * Creates a new pretty JSON formatter set to {@link #STYLE_DEFAULT}.
+	 * Creates a new pretty JSON formatter set to {@link Style#DEFAULT}.
 	 */
 	public PrettyJson () {
 	
-		this(STYLE_DEFAULT);
+		this(Style.DEFAULT);
 	}
 	
 	
 	/**
-	 * Sets the formatting style. The currently supported styles are 
-	 * {@link #STYLE_DEFAULT} and {@link #STYLE_COMPACT}.
+	 * Sets the formatting style.
 	 *
-	 * @param style The formatting style.
-	 *
-	 * @throws NullPointerException     If the style is {@code null}.
-	 * @throws IllegalArgumentException If the style is unrecognised.
+	 * @param style The formatting style. Must not be {@code null}.
 	 */
-	public void setStyle (final String style) {
+	public void setStyle (final Style style) {
 	
-		ensureStyleIsValid(style);
+		if (style == null)
+			throw new IllegalArgumentException("The style must not be null");
 		
 		this.style = style;
 	}
@@ -168,7 +154,7 @@ public class PrettyJson {
 	 *
 	 * @return The formatting style.
 	 */
-	public String getStyle () {
+	public Style getStyle () {
 	
 		return style;
 	}
@@ -308,10 +294,10 @@ public class PrettyJson {
 			
 				first = false; // change flag
 				
-				if (style == STYLE_DEFAULT && breakItems) {
+				if (style == Style.DEFAULT && breakItems) {
 					s += "\n" + repeat(' ', indent + 2);
 				}
-				else if (style == STYLE_COMPACT || ! breakItems) {
+				else if (style == Style.COMPACT || ! breakItems) {
 					// proceed immediately
 				}
 			}
@@ -346,7 +332,7 @@ public class PrettyJson {
 			}
 		}
 		
-		if (style == STYLE_DEFAULT) {
+		if (style == Style.DEFAULT) {
 			if (breakItems)
 				return s + "\n" + repeat(' ', indent) + "]";
 			else
@@ -422,10 +408,10 @@ public class PrettyJson {
 			
 				first = false; // change flag
 				
-				if (style == STYLE_DEFAULT) {
+				if (style == Style.DEFAULT) {
 					s += "\n" + repeat(' ', indent + 2);
 				}
-				else if (style == STYLE_COMPACT) {
+				else if (style == Style.COMPACT) {
 					// proceed immediately
 				}
 			}
@@ -464,7 +450,7 @@ public class PrettyJson {
 			}
 		}
 	
-		if (style == STYLE_DEFAULT) {
+		if (style == Style.DEFAULT) {
 			return s + "\n" + repeat(' ', indent) + "}";
 		}
 		else {
@@ -626,7 +612,7 @@ public class PrettyJson {
 	 * <p>The raw JSON input can be read from a file or from STDIN. The
 	 * pretty formatted JSON can be written to a file or to STDOUT. The
 	 * optional {@code -compact} command line argument turns 
-	 * {@link #STYLE_COMPACT} formatting on.
+	 * {@link Style#COMPACT} formatting on.
 	 *
 	 * <pre>
 	 * Usage: java -jar PrettyJson.jar [-compact] json-input-file [json-output-file]
@@ -691,9 +677,9 @@ public class PrettyJson {
 		PrettyJson formatter = null;
 		
 		if (compactStyleOn)
-			formatter = new PrettyJson(STYLE_COMPACT);
+			formatter = new PrettyJson(Style.COMPACT);
 		else
-			formatter = new PrettyJson(STYLE_DEFAULT);
+			formatter = new PrettyJson(Style.DEFAULT);
 		
 		
 		// Do format
