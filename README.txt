@@ -1,6 +1,6 @@
 PrettyJson
 
-Copyright (c) Vladimir Dzhuvinov, 2011
+Copyright (c) Vladimir Dzhuvinov, 2011 - 2012
 
 
 README

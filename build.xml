@@ -1,8 +1,8 @@
 <project name="Pretty JSON" default="dist" basedir=".">
 
 	<property name="version" value="1.2"/>
-	<property name="jarfile" value="PrettyJson.jar"/>
-	<property name="jarfile-lib" value="pretty_json-${version}.jar"/>
+	<property name="version-date" value="2012-07-14"/>
+	<property name="jarfile" value="pretty_json-${version}.jar"/>
 
 	<path id="classpath.compile">
 		<fileset dir="lib">
@@ -12,25 +12,43 @@
 	</path>
 
 	<target name="clean">
+		<delete dir="procsrc"/>
 		<delete dir="build"/>
 		<delete dir="javadoc"/>
 		<delete file="${jarfile}"/>
-		<delete file="${jarfile-lib}"/>
+		<delete file="PrettyJson.zip"/>
 	</target>
 	
-	<target name="compile">
+	<target name="src">
+		<mkdir dir="procsrc"/>
+		<copy todir="procsrc">
+    			<fileset dir="src"/>
+  		</copy>
+		
+		<!-- Indicate version number and version date -->
+		<replace dir="procsrc" token="$version$" value="${version}">
+			<include name="**/*.java"/>
+		</replace>
+		<replace dir="procsrc" token="$version-date$" value="${version-date}">
+			<include name="**/*.java"/>
+		</replace>
+	</target>
+	
+	<target name="compile" depends="src">
 		<mkdir dir="build"/>
-		<mkdir dir="build/main"/>
 		<javac srcdir="src" 
-		       destdir="build/main" 
-		       classpathref="classpath.compile" 
-		       includeantruntime="false"/>
+		       destdir="build" 
+		       classpathref="classpath.compile"
+		       includeantruntime="false">
+		       
+			<compilerarg value="-Xlint:unchecked"/>
+		</javac>
 	</target>
 	
-	<target name="javadoc">
+	<target name="javadoc" depends="src">
 		<mkdir dir="javadoc"/>
 		<javadoc packagenames="com.thetransactioncompany.json.pretty.*"
-	        	 sourcepath="src"
+	        	 sourcepath="procsrc"
 			 classpathref="classpath.compile"
 			 destdir="javadoc"
 			 linksource="yes"
@@ -44,13 +62,7 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-		<jar destfile="${jarfile}" basedir="build/main">
-			<manifest>
-				<attribute name="Main-Class" value="com.thetransactioncompany.json.pretty.PrettyJson"/>
-			</manifest>
-			<zipfileset src="lib/json-smart-1.1.1.jar" excludes="**/MANIFEST.MF"/>
-		</jar>
-		<jar destfile="${jarfile-lib}" basedir="build/main">
+		<jar destfile="${jarfile}" basedir="build">
 			<manifest>
 				<attribute name="Main-Class" value="com.thetransactioncompany.json.pretty.PrettyJson"/>
 			</manifest>
@@ -58,7 +70,11 @@
 	</target>
 	
 	<target name="dist" depends="clean,compile,javadoc,jar">
+		<delete dir="procsrc"/>
 		<delete dir="build"/>
+		<zip destfile="PrettyJson.zip">
+			<zipfileset dir="." prefix="PrettyJson-${version}"/>
+		</zip>
 	</target>
 
 </project>

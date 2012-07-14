@@ -56,7 +56,7 @@ import net.minidev.json.parser.*;
  * </pre>
  *
  * @author Vladimir Dzhuvinov
- * @version 1.2 (2011-07-14)
+ * @version $version$ (2011-07-14)
  */
 public class PrettyJson {
 

@@ -12,6 +12,6 @@
  * </ul>
  *
  * @author Vladimir Dzhuvinov
- * @version 1.2 (2012-07-14)
+ * @version $version$ ($version-date$)
  */
 package com.thetransactioncompany.json.pretty;
