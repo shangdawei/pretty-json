@@ -1,0 +1,65 @@
+<project name="PrettyJson" default="dist" basedir=".">
+
+	<property name="version" value="1.1"/>
+	<property name="jarfile" value="PrettyJson.jar"/>
+	<property name="jarfile-lib" value="pretty_json-${version}.jar"/>
+
+	<path id="classpath.compile">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement location="build/main"/>
+	</path>
+
+	<target name="clean">
+		<delete dir="build"/>
+		<delete dir="javadoc"/>
+		<delete file="${jarfile}"/>
+		<delete file="${jarfile-lib}"/>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="build"/>
+		<mkdir dir="build/main"/>
+		<javac srcdir="src" 
+		       destdir="build/main" 
+		       classpathref="classpath.compile" 
+		       includeantruntime="false"/>
+	</target>
+	
+	<target name="javadoc">
+		<mkdir dir="javadoc"/>
+		<javadoc packagenames="com.thetransactioncompany.json.pretty.*"
+	        	 sourcepath="src"
+			 classpathref="classpath.compile"
+			 destdir="javadoc"
+			 linksource="yes"
+			 private="false"
+			 author="true"
+			 version="true"
+			 use="true"
+			 windowtitle="Pretty JSON"
+			 doctitle="Pretty JSON">
+			<bottom><![CDATA[<i>Copyright &#169; 2011 Vladimir Dzhuvinov. All Rights Reserved.</i>]]></bottom>
+		</javadoc>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="${jarfile}" basedir="build/main">
+			<manifest>
+				<attribute name="Main-Class" value="com.thetransactioncompany.json.pretty.PrettyJson"/>
+			</manifest>
+			<zipfileset src="lib/json-smart-1.0.9.jar" excludes="**/MANIFEST.MF"/>
+		</jar>
+		<jar destfile="${jarfile-lib}" basedir="build/main">
+			<manifest>
+				<attribute name="Main-Class" value="com.thetransactioncompany.json.pretty.PrettyJson"/>
+			</manifest>
+		</jar>
+	</target>
+	
+	<target name="dist" depends="clean,compile,javadoc,jar">
+		<delete dir="build"/>
+	</target>
+
+</project>
