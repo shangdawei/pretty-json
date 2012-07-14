@@ -56,7 +56,7 @@ import net.minidev.json.parser.*;
  * </pre>
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2011-07-14)
+ * @version $version$ (2012-07-14)
  */
 public class PrettyJson {
 
@@ -85,12 +85,12 @@ public class PrettyJson {
 	 */
 	private static final ContainerFactory containerFactory = new ContainerFactory() {
 		
-		public List createArrayContainer() {
-			return new LinkedList();
+		public List<Object> createArrayContainer() {
+			return new LinkedList<Object>();
 		}
 
-		public Map createObjectContainer() {
-			return new LinkedHashMap();
+		public Map<java.lang.String,java.lang.Object> createObjectContainer() {
+			return new LinkedHashMap<java.lang.String,java.lang.Object>();
 		}       
 	};
 
@@ -255,7 +255,8 @@ public class PrettyJson {
 	 *
 	 * @return The formatted array.
 	 */
-	public String format(final List a, final int indent) {
+	@SuppressWarnings("unchecked")
+	public String format(final List<Object> a, final int indent) {
 	
 		String s = "[ ";
 		
@@ -366,7 +367,7 @@ public class PrettyJson {
 	 *
 	 * @return The formatted array.
 	 */
-	public String format(final List a) {
+	public String format(final List<Object> a) {
 		
 		return format(a, 0);
 	}
@@ -381,7 +382,8 @@ public class PrettyJson {
 	 *
 	 * @return The formatted object.
 	 */
-	public String format(final Map o, final int indent) {
+	@SuppressWarnings("unchecked")
+	public String format(final Map<String,Object> o, final int indent) {
 	
 		String s = "{ ";
 		
@@ -480,7 +482,7 @@ public class PrettyJson {
 	 *
 	 * @return The formatted object.
 	 */
-	public String format(final Map o) {
+	public String format(final Map<String,Object> o) {
 	
 		return format(o, 0);
 	}
@@ -495,6 +497,7 @@ public class PrettyJson {
 	 *
 	 * @throws java.text.ParseException On parse exception.
 	 */
+	@SuppressWarnings("unchecked")
 	public String parseAndFormat(final String jsonTxt)
 		throws java.text.ParseException {
 	
