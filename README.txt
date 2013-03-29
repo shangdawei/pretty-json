@@ -1,6 +1,6 @@
 PrettyJson
 
-Copyright (c) Vladimir Dzhuvinov, 2011 - 2012
+Copyright (c) Vladimir Dzhuvinov, 2011 - 2013
 
 
 README
@@ -51,7 +51,7 @@ Package content:
 	
 	javadoc/                  The Java Docs for this package.
 	
-	build.xml                 The Apache Ant build file.
+	pom.xml                   The Maven build file.
 	
 	lib/                      The package dependencies and their licenses.
 	

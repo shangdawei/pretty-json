@@ -14,3 +14,6 @@ version 1.2 (2012-07-14)
 	* Switches to style enumeration.
 	* Expands use of generics.
 	* Updates JSON-Smart JAR to 1.1.1.
+
+version 1.3 (2013-03-29)
+	* Switches project build from Ant to Maven.
