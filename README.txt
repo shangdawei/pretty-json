@@ -9,8 +9,7 @@ README
 Pretty JSON formatter supporting standard and compact styling. It can be
 integrated into a Java application or run as a simple utility from the command 
 line that reads the JSON input from a file or STDIN and outputs the formatted 
-JSON to another file or to STDOUT. 
-
+JSON to another file or to STDOUT.
 
 
 Command line usage:
@@ -25,44 +24,12 @@ or
 The "-compact" command line option turns compact style formatting on.
 
 
-
 Requirements:
 
 	* Java 1.5 or later
 	
 	* net.minidev.json and net.minidev.json.parser from the JSON Smart 
 	  library [http://code.google.com/p/json-smart/]
-
-All required package dependencies are included in the PrettyJson.jar file.
-
-
-
-Package content:
-
-	README.txt                This file.
-	
-	LICENSE.txt               The software license.
-	
-	CHANGELOG.txt             The change log.
-	
-	pretty_json-{version}.jar JAR file for embedding PrettyJson into Java
-	                          applications. Doesn't include the JSON Smart
-				  dependency.
-	
-	javadoc/                  The Java Docs for this package.
-	
-	pom.xml                   The Maven build file.
-	
-	lib/                      The package dependencies and their licenses.
-	
-	src/                      The source code for this package.
-
-
-
-For complete PrettyJson documentation and updates visit:
-	
-	http://software.dzhuvinov.com/pretty-json.html
-
 
 
 [EOF]
